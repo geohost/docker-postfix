@@ -1,3 +1,5 @@
+based on catatnight/docker-postfix
+
 docker-postfix
 ==============
 
@@ -5,13 +7,13 @@ run postfix with smtp authentication (sasldb) in a docker container.
 TLS and OpenDKIM support are optional.
 
 ## Requirement
-+ Docker 1.0
++ Docker
 
 ## Installation
 1. Build image
 
 	```bash
-	$ sudo docker pull catatnight/postfix
+	$ sudo docker pull geohost/postfix
 	```
 
 ## Usage
@@ -23,7 +25,16 @@ TLS and OpenDKIM support are optional.
 			--name postfix -d catatnight/postfix
 	# Set multiple user credentials: -e smtp_user=user1:pwd1,user2:pwd2,...,userN:pwdN
 	```
-2. Enable OpenDKIM: save your domain key ```.private``` in ```/path/to/domainkeys```
+2. Create postfix container with smtp authentication and act as a relayhost for other server (without auth)
+
+	```bash
+	$ sudo docker run -p 25:25 \
+			-e maildomain=mail.example.com -e smtp_user=user:pwd \
+			-e smtp_relay_host=smtp.yourhost.tld
+			--name postfix -d catatnight/postfix
+	# Set multiple user credentials: -e smtp_user=user1:pwd1,user2:pwd2,...,userN:pwdN
+	```
+3. Enable OpenDKIM: save your domain key ```.private``` in ```/path/to/domainkeys```
 
 	```bash
 	$ sudo docker run -p 25:25 \
@@ -31,7 +42,7 @@ TLS and OpenDKIM support are optional.
 			-v /path/to/domainkeys:/etc/opendkim/domainkeys \
 			--name postfix -d catatnight/postfix
 	```
-3. Enable TLS(587): save your SSL certificates ```.key``` and ```.crt``` to  ```/path/to/certs```
+4. Enable TLS(587): save your SSL certificates ```.key``` and ```.crt``` to  ```/path/to/certs```
 
 	```bash
 	$ sudo docker run -p 587:587 \

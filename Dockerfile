@@ -1,5 +1,6 @@
-From ubuntu:trusty
-MAINTAINER Elliott Ye
+From ubuntu:latest  
+
+LABEL maintainer="George Draghici <geo@geohost.ro>"
 
 # Set noninteractive mode for apt-get
 ENV DEBIAN_FRONTEND noninteractive

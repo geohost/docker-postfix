@@ -27,6 +27,7 @@ tail -f /var/log/mail.log
 EOF
 chmod +x /opt/postfix.sh
 postconf -e myhostname=$maildomain
+if [ -z ${smtp_relay_host+x} ]; then postconf -e relayhost=$smtp_relay_host ; else echo "running without a relayhost set"; fi
 postconf -F '*/*/chroot = n'
 
 ############
